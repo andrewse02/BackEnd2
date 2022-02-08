@@ -1,5 +1,5 @@
 const houses = require("./db.json");
-const nextId = houses.length;
+const nextId = houses.length + 1;
 
 module.exports = {
     getHouses: (req, res) => {
@@ -15,9 +15,9 @@ module.exports = {
     createHouse: (req, res) => {
         const { address, price, imageURL } = req.body;
         const newHouse = {
-            nextId,
+            id: nextId,
             address,
-            price,
+            price: +price,
             imageURL
         };
 
@@ -31,8 +31,10 @@ module.exports = {
         );
 
         if (type === "plus") {
+            console.log(houses);
             houses[index].price += 10000;
         } else if (type === "minus") {
+            console.log(houses);
             houses[index].price -= 10000;
         } else {
             req.status(400).send("Bad Request");
